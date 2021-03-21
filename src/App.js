@@ -1,0 +1,164 @@
+import React, { useEffect, useState } from 'react'
+import './App.css'
+import Header from './Header'
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Redirect,
+} from 'react-router-dom'
+import Menu from './Menu'
+
+import Login from './Login'
+import Item from './Item'
+import { useDispatch, useSelector } from 'react-redux'
+import { login, logout, selectUser } from './features/userSlice'
+import Signup from './Signup'
+import TeslaAccount from './TeslaAccount'
+import { auth } from './firebase'
+import Accessories from './assets/Desktop-Accessories.jpg'
+import ModelS from './assets/Desktop-ModelS.jpeg'
+import Model3 from './assets/Desktop-Model3.jpeg'
+import ModelX from './assets/Desktop-ModelX.jpeg'
+import ModelY from './assets/Desktop-ModelY.jpeg'
+import SolarRoof from './assets/Desktop-SolarRoof.jpeg'
+import SolarPanels from './assets/Desktop-SolarPanels.jpeg'
+
+function App() {
+  const user = useSelector(selectUser)
+  const [isMenuOpen, setIsMenuOpen] = useState(false)
+  const dispatch = useDispatch()
+
+  useEffect(() => {
+    auth.onAuthStateChanged((userAuth) => {
+      if (userAuth) {
+        // User is signed in
+        dispatch(
+          login({
+            email: userAuth.email,
+            uid: userAuth.uid,
+            displayName: userAuth.displayName,
+          })
+        )
+      } else {
+        // User is signed out
+        dispatch(logout())
+      }
+    })
+  }, [dispatch])
+
+  return (
+    <Router>
+      <div className='app'>
+        <Switch>
+          <Route exact path='/'>
+            <Header isMenuOpen={isMenuOpen} setIsMenuOpen={setIsMenuOpen} />
+            {isMenuOpen && <Menu />}
+            
+            <Item
+      title='Lowest Cost of Solar Panels'
+      desc='Money-back  guarantee'
+      descLink=''
+      backgroundImg={SolarPanels}
+      leftBtnTxt='ORDER NOW'
+      leftBtnLink=''
+      rightBtnTxt='LEARN MORE'
+      rightBtnLink=''
+      twoButtons='true'
+      first
+/>
+<Item 
+    title='Model S'
+    desc='Order Online for Touchless Delivery'
+    descLink=''
+    backgroundImg={ModelS}
+    leftBtnTxt='CUSTOM ORDER'
+    leftBtnLink=''
+    rightBtnTxt='LEARN MORE'
+    rightBtnLink=''
+    twoButtons='true'
+/>
+<Item 
+title='Model 3'
+desc='Order Online for Touchless Delivery'
+descLink=''
+backgroundImg={Model3}
+leftBtnTxt='CUSTOM ORDER'
+leftBtnLink=''
+rightBtnTxt='LEARN MORE'
+rightBtnLink=''
+twoButtons='true'
+/>
+<Item 
+title='Model X'
+desc='Order Online for Touchless Delivery'
+descLink=''
+backgroundImg={ModelX}
+leftBtnTxt='CUSTOM ORDER'
+leftBtnLink=''
+rightBtnTxt='LEARN MORE'
+rightBtnLink=''
+twoButtons='true'
+/>
+<Item 
+title='Model Y'
+desc='Order Online for Touchless Delivery'
+descLink=''
+backgroundImg={ModelY}
+leftBtnTxt='CUSTOM ORDER'
+leftBtnLink=''
+rightBtnTxt='LEARN MORE'
+rightBtnLink=''
+twoButtons='true'
+/>
+<Item 
+title='Solar for New Roofs'
+desc='Money-back guarantee'
+descLink=''
+backgroundImg={SolarRoof}
+leftBtnTxt='ORDER NOW'
+leftBtnLink=''
+rightBtnTxt='LEARN MORE'
+rightBtnLink=''
+twoButtons='true'
+/>
+<Item 
+title='Accessories'
+desc='Money-back guarantee'
+descLink=''
+backgroundImg={Accessories}
+leftBtnTxt='SHOP NOW'
+leftBtnLink=''
+rightBtnTxt='LEARN MORE'
+rightBtnLink=''
+twoButtons='true'
+/>
+            
+            
+          </Route>
+          <Route exact path='/login'>
+            {user ? <Redirect to='/teslaaccount' /> : <Login />}
+          </Route>
+          <Route exact path='/signup'>
+            <Signup />
+          </Route>
+          <Route exact path='/teslaaccount'>
+            {!user ? (
+              <Redirect to='/login' />
+            ) : (
+              <>
+                <TeslaAccount
+                  isMenuOpen={isMenuOpen}
+                  setIsMenuOpen={setIsMenuOpen}
+                />
+                {isMenuOpen && <Menu />}
+              </>
+            )}
+          </Route>
+        </Switch>
+      </div>
+    </Router>
+  )
+}
+
+export default App
