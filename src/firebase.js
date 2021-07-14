@@ -2,9 +2,9 @@ import firebase from 'firebase/app';
 import 'firebase/auth'
 
 const firebaseConfig = {
-  apiKey: "AIzaSyCy-5R_jww5yil2y6hKGLgxiQTJuNuTQho",
+  apiKey: "#########################",
   authDomain: "tesla-clone-5f0be.firebaseapp.com",
-  databaseURL: "https://tesla-clone-5f0be-default-rtdb.firebaseio.com",
+  databaseURL: "##############################3",
   projectId: "tesla-clone-5f0be",
   storageBucket: "tesla-clone-5f0be.appspot.com",
   messagingSenderId: "944591489058",
